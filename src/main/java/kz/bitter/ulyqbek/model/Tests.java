@@ -20,4 +20,8 @@ public class Tests extends Tasks {
     @Column (name = "html_content", columnDefinition = "TEXT")
     private String htmlContent;
 
+    @Override
+    public String returnClass (){
+      return "Tests";
+    }
 }

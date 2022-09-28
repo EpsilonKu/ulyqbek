@@ -10,7 +10,6 @@ import kz.bitter.ulyqbek.model.Users;
 public class MainController {
   @GetMapping( value = "/")
   public String index (Model model){
-    Users users = new Users(null, "Nurda");
     return "index";
   }
 }

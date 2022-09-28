@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Roles implements GrantedAuthority{
+public class Roles implements GrantedAuthority{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;

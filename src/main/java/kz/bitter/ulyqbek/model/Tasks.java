@@ -2,17 +2,11 @@ package kz.bitter.ulyqbek.model;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Tasks extends BaseEntity{
+@MappedSuperclass
+public abstract class Tasks extends BaseEntity{
     @Column (name = "order_place")
     private Long orderPlace;
 
@@ -21,4 +15,6 @@ public class Tasks extends BaseEntity{
 
     @Column (name = "name")
     private String name;
+
+    public abstract String returnClass ();
 }
