@@ -30,6 +30,5 @@ public interface CourseService {
     List<Chapters> getChapterByCourseId (Long id);
     List<Lessons> getLessonsByChapterId (Long id);
     List<Tests> getTestsByChapterId (Long id);
-
     Page<Courses> getCoursesByPage (int page);
 }

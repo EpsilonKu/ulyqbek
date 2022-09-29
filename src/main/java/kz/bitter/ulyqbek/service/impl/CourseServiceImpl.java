@@ -35,24 +35,27 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     LessonRepository lessonRepository;
 
-    @Autowired 
+    @Autowired
     TestRepository testRepository;
 
     @Override
     public void saveCourse(Courses courses) {
         courseRepository.save(courses);
     }
+
     @Override
     public void saveChapter(Chapters chapter) {
         chapterRepository.save(chapter);
     }
+
     @Override
     public Lessons saveLesson(Lessons lesson) {
-          return lessonRepository.save(lesson);
+        return lessonRepository.save(lesson);
     }
+
     @Override
-    public Tests saveTests (Tests test){
-      return testRepository.save(test);
+    public Tests saveTests(Tests test) {
+        return testRepository.save(test);
     }
 
     @Override
@@ -62,18 +65,21 @@ public class CourseServiceImpl implements CourseService {
         chapterRepository.deleteAllByCourseId(id);
         courseRepository.deleteById(id);
     }
+
     @Override
     public void removeChapter(Long id) {
         lessonRepository.deleteAllByChapterId(id);
         testRepository.deleteAllByChapterId(id);
         chapterRepository.deleteById(id);
     }
+
     @Override
     public void removeLesson(Long id) {
         lessonRepository.deleteById(id);
     }
+
     @Override
-    public void removeTest (Long id){
+    public void removeTest(Long id) {
         testRepository.deleteById(id);
     }
 
@@ -81,20 +87,24 @@ public class CourseServiceImpl implements CourseService {
     public List<Courses> getAllCourses() {
         return courseRepository.findAll();
     }
+
     @Override
     public Courses getCourseById(Long id) {
         return courseRepository.getOne(id); // TODO: Remove deprecated
     }
+
     @Override
     public Chapters getChapterById(Long id) {
         return chapterRepository.getOne(id);
     }
+
     @Override
     public Lessons getLessonbyId(Long id) {
         return lessonRepository.getOne(id);
     }
+
     @Override
-    public Tests getTestbyId (Long id){
+    public Tests getTestbyId(Long id) {
         return testRepository.getOne(id);
     }
 
@@ -102,19 +112,20 @@ public class CourseServiceImpl implements CourseService {
     public List<Chapters> getChapterByCourseId(Long id) {
         return chapterRepository.findByCourseId(id);
     }
+
     @Override
     public List<Lessons> getLessonsByChapterId(Long id) {
         return lessonRepository.findByChapterId(id);
     }
+
     @Override
-    public List<Tests> getTestsByChapterId (Long id){
+    public List<Tests> getTestsByChapterId(Long id) {
         return testRepository.findByChapterId(id);
     }
 
     @Override
     public Page<Courses> getCoursesByPage(int page) {
-        Pageable sortedByName =
-                PageRequest.of(page, 10, Sort.by("name"));
+        Pageable sortedByName = PageRequest.of(page, 10, Sort.by("name"));
         Page<Courses> result = courseRepository.findAll(sortedByName);
 
         return result;

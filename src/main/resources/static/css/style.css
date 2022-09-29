@@ -1,0 +1,29 @@
+.max-width {
+    width: 100%;
+}
+
+.min-vw-70 {
+    min-width: 70vw !important;
+}
+.min-vw-75 {
+    min-width: 75vw !important;
+}
+.min-vw-70 {
+    min-width: 60vw !important;
+}
+.max-vm-80{
+    max-width: 80vw !important;
+}
+.big-text {
+    font-size: 250%;
+}
+.right {
+	right: 0;
+}
+.square-rounded-img {
+    /*background: 50% 50% no-repeat; !* 50% 50% centers image in div *!*/
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
