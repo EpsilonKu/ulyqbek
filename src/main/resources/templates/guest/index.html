@@ -1,7 +1,7 @@
 
 <html lang="en" xmlns:th = "http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout/minStruct"
+      layout:decorate="~{layout/minStruct.html}"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div class="col-12" layout:fragment="content_view">
     <div sec:authorize="isAnonymous()" class = "col-12 border border-secondary rounded-sm my-2 p-3">
