@@ -29,7 +29,6 @@ public class MainController {
     }
 
     @GetMapping(value = "/profile")
-    @PreAuthorize("isAuthenticated()")
     public String profile(Model model) {
         model.addAttribute("currentUser", getUserData());
         return "user/profile";
