@@ -5,16 +5,21 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @MappedSuperclass
-public abstract class Tasks extends BaseEntity{
-    @Column (name = "order_place")
+@Data
+@EqualsAndHashCode(callSuper = true)
+public abstract class Tasks extends BaseEntity {
+    @Column(name = "order_place")
     private Long orderPlace;
 
-    @ManyToOne (fetch = FetchType.LAZY )
+    @ManyToOne(fetch = FetchType.LAZY)
     private Chapters chapter;
 
-    @Column (name = "name")
+    @Column(name = "name")
     private String name;
 
-    public abstract String returnClass ();
+    public abstract String returnClass();
 }

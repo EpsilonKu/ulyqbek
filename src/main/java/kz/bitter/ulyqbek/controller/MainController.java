@@ -28,6 +28,13 @@ public class MainController {
         return "guest/index";
     }
 
+    @GetMapping(value = "/profile")
+    @PreAuthorize("isAuthenticated()")
+    public String profile(Model model) {
+        model.addAttribute("currentUser", getUserData());
+        return "user/profile";
+    }
+
     private Users getUserData() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
