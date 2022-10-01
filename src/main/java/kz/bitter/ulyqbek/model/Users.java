@@ -23,29 +23,29 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Users {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Column
-  private String fullname;
+    @Column
+    private String fullname;
 
-    @Column (name = "email")
+    @Column(name = "email")
     private String email;
 
-    @Column (name = "username")
+    @Column(name = "username")
     private String username;
 
-    @Column (name = "password")
+    @Column(name = "password")
     private String password;
 
-    @Column (name  = "pfp")
+    @Column(name = "pfp")
     private String pfp;
 
-    @ManyToMany (fetch = FetchType.LAZY)
-    private List <Groups> groups;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Groups> groups;
 
-    @ManyToMany (fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Courses> courses;
 
     @ManyToMany(fetch = FetchType.EAGER)
