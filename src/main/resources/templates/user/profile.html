@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="~{layout/profileLayout}">
+      layout:decorator="~{layout/profileLayout.html}">
 <div layout:fragment="content_view">
     <div class="row">
         <div class="col-12 grid-margin">
@@ -13,7 +13,7 @@
                     <div class="cover-body d-flex justify-content-between align-items-center">
                         <div>
                             <img class="square-rounded-img" th:src="@{'viewPhoto/' + ${currentUser.getPfp()}}" alt="Place Holder">
-                            <span class="profile-name" th:text="${currentUser.name}"></span>
+                            <span class="profile-name" th:text="${currentUser.fullname}"></span>
                         </div>
                         <div class="d-none d-md-block">
                             <a class="btn btn-success btn-icon-text" th:href="@{'/explore'}">
