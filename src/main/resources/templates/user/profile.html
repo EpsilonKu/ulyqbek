@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="~{layout/profileLayout.html}">
+      layout:decorate="~{layout/profileLayout.html}">
 <div layout:fragment="content_view">
     <div class="row">
         <div class="col-12 grid-margin">
@@ -47,7 +47,7 @@
                     <p> Maybe His name, and Date</p>
                     <div class="mt-3">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Joined:</label>
-                        <p class="text-muted" th:text="${#dates.format(currentUser.createdDate, 'dd-MM-yyyy')}"></p>
+                        <!-- <p class="text-muted" th:text="${#dates.format(currentUser.createdDate, 'dd-MM-yyyy')}"></p>TODO: Extend user from BaseEntity -->
                     </div>
                 </div>
             </div>

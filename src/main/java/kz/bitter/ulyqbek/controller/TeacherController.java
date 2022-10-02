@@ -18,6 +18,7 @@ import kz.bitter.ulyqbek.service.CourseService;
 import kz.bitter.ulyqbek.service.UserService;
 
 @Controller
+@RequestMapping("/admin")
 public class TeacherController {
 
     @Autowired
@@ -31,7 +32,7 @@ public class TeacherController {
         model.addAttribute("allCourses", courseService.getAllCourses());
         model.addAttribute("currentUser", getUserData());
 
-        return "teacher/course/edit";
+        return "teacher/course/list";
     }
 
     @GetMapping(value = "/edit/course/{id}")
@@ -40,7 +41,7 @@ public class TeacherController {
         model.addAttribute("chapterList", courseService.getChapterByCourseId(id));
         model.addAttribute("course", courseService.getCourseById(id));
         model.addAttribute("currentUser", getUserData());
-        return "admin/edit-course";
+        return "teacher/course/edit";
     }
 
     @GetMapping(value = "/edit/chapter/{id}")
@@ -49,7 +50,7 @@ public class TeacherController {
         model.addAttribute("lessonList", courseService.getLessonsByChapterId(id));
         model.addAttribute("chapter", courseService.getChapterById(id));
         model.addAttribute("currentUser", getUserData());
-        return "admin/edit-chapter";
+        return "teacher/chapter/edit";
     }
 
     @GetMapping(value = "/edit/lesson/{id}")
@@ -59,7 +60,7 @@ public class TeacherController {
         Lessons lesson = courseService.getLessonbyId(id);
         model.addAttribute("currentLesson", lesson);
         model.addAttribute("currentUser", getUserData());
-        return "admin/edit-lesson";
+        return "teacher/lesson/edit";
     }
 
     @PostMapping(value = "/save-course")
@@ -79,7 +80,7 @@ public class TeacherController {
         courses.setPrice(price);
 
         courseService.saveCourse(courses);
-        return "redirect:admin/course-panel";
+        return "redirect:/admin/course-panel";
     }
 
     @PostMapping(value = "/save-chapter")
@@ -98,7 +99,7 @@ public class TeacherController {
         chapter.setDescription(description);
 
         courseService.saveChapter(chapter);
-        return "redirect:admin/edit/course/" + courseId;
+        return "redirect:/admin/edit/course/" + courseId;
     }
 
     @PostMapping(value = "/save-lesson")
@@ -107,7 +108,7 @@ public class TeacherController {
             @RequestParam(name = "chapter_id") Long chapterId) {
         lesson.setChapter(courseService.getChapterById(chapterId));
         courseService.saveLesson(lesson);
-        return "redirect:admin/edit/chapter/" + lesson.getChapter().getId();
+        return "redirect:/admin/edit/chapter/" + lesson.getChapter().getId();
     }
 
     @PostMapping(value = "/save-account")
@@ -120,9 +121,9 @@ public class TeacherController {
             user.setEmail(userEmail);
             user.setUsername(userNickname);
             return userService.saveUser(user) != null ? "redirect:admin/user-panel?saveSuccess=" + id
-                    : "redirect:admin/user-panel?saveError=true";
+                    : "redirect:/admin/user-panel?saveError=true";
         }
-        return "redirect:/";
+        return "redirect:/profile";
     }
 
     @PostMapping(value = "/new-lesson")
@@ -130,7 +131,7 @@ public class TeacherController {
         Lessons lesson = new Lessons();
         lesson.setChapter(courseService.getChapterById(chapterId));
         lesson = courseService.saveLesson(lesson);
-        return "redirect:admin/edit/lesson/" + lesson.getId();
+        return "redirect:/admin/edit/lesson/" + lesson.getId();
     }
 
     @PostMapping(value = "/remove-course")
@@ -139,9 +140,9 @@ public class TeacherController {
         Courses course = courseService.getCourseById(id);
         if (course != null) {
             courseService.removeCourse(id);
-            return "redirect:admin/course-panel?removeSuccess=" + id;
+            return "redirect:/admin/course-panel?removeSuccess=" + id;
         } else {
-            return "redirect:/";
+            return "redirect:/profile";
         }
     }
 
