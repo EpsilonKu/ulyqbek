@@ -27,6 +27,39 @@ public class TeacherController {
     @Autowired
     private CourseService courseService;
 
+    @GetMapping(value = "/user-panel")
+    public String userPanel(Model model) {
+        model.addAttribute("allUsers", userService.getAllUsers());
+        model.addAttribute("currentUser", getUserData());
+        return "admin/panel";
+    }
+
+    @PostMapping(value = "/remove-user")
+    public String removeUser(
+            @RequestParam(name = "user_id") Long id) {
+        Users user = userService.getUserById(id);
+        if (user != null) {
+            userService.removeUserById(id);
+            return "redirect:/admin/user-panel?removeSuccess=" + id;
+        }
+        return "redirect:/admin/user-panel?removeError=true";
+    }
+
+    @PostMapping(value = "/save-account")
+    public String saveUserAccount(@RequestParam(name = "user_id") String id,
+            @RequestParam(name = "user_email") String userEmail,
+            @RequestParam(name = "user_nickname") String userNickname,
+            @RequestParam(name = "user_password") String password) {
+        Users user = userService.getUserById(Long.parseLong(id));
+        if (user != null) {
+            user.setEmail(userEmail);
+            user.setUsername(userNickname);
+            return userService.saveUser(user) != null ? "redirect:/admin/user-panel?saveSuccess=" + id
+                    : "redirect:/admin/user-panel?saveError=true";
+        }
+        return "redirect:/";
+    }
+
     @GetMapping(value = "/course-panel")
     public String coursePanel(Model model) {
         model.addAttribute("allCourses", courseService.getAllCourses());
