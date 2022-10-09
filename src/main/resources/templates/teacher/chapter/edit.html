@@ -4,7 +4,7 @@
 <div class="col-12 stretch-card grid-margin" layout:fragment="content_view">
     <div class="card">
         <div class="card-body col-12">
-            <form th:action="@{/new-lesson}" method="post">
+            <form th:action="@{/admin/new-lesson}" method="post">
                 <input type="hidden" th:name = "chapter_id" th:value="${chapter.id}">
                        <button class="btn btn-primary">Create Lesson</button>
             </form>

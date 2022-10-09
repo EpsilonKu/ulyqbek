@@ -1,105 +1,60 @@
 package kz.bitter.ulyqbek.config;
 
-import org.springframework.beans.BeansException;
+import java.util.Locale;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.thymeleaf.spring5.ISpringTemplateEngine;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ITemplateResolver;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-import kz.bitter.ulyqbek.utils.ArrayUtil;
 import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer, ApplicationContextAware {
 
-    private ApplicationContext applicationContext;
+  private ApplicationContext applicationContext;
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) {
+    this.applicationContext = applicationContext;
+  }
 
-    // @Bean
-    // public ViewResolver htmlViewResolver() {
-    // ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-    // resolver.setTemplateEngine(templateEngine(htmlTemplateResolver()));
-    // resolver.setContentType("text/html");
-    // resolver.setCharacterEncoding("UTF-8");
-    // resolver.setViewNames(ArrayUtil.array("*.html"));
-    // return resolver;
-    // }
-    //
-    // @Bean
-    // public ViewResolver javascriptViewResolver() {
-    // ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-    // resolver.setTemplateEngine(templateEngine(javascriptTemplateResolver()));
-    // resolver.setContentType("application/javascript");
-    // resolver.setCharacterEncoding("UTF-8");
-    // resolver.setViewNames(ArrayUtil.array("*.js"));
-    // return resolver;
-    // }
-    //
-    // @Bean
-    // public ViewResolver plainViewResolver() {
-    // ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-    // resolver.setTemplateEngine(templateEngine(plainTemplateResolver()));
-    // resolver.setContentType("text/plain");
-    // resolver.setCharacterEncoding("UTF-8");
-    // resolver.setViewNames(ArrayUtil.array("*.txt"));
-    // return resolver;
-    // }
-    //
-    // private ISpringTemplateEngine templateEngine(ITemplateResolver
-    // templateResolver) {
-    // SpringTemplateEngine engine = new SpringTemplateEngine();
-    // engine.setTemplateResolver(templateResolver);
-    // return engine;
-    // }
-    //
-    // private ITemplateResolver htmlTemplateResolver() {
-    // SpringResourceTemplateResolver resolver = new
-    // SpringResourceTemplateResolver();
-    // resolver.setApplicationContext(applicationContext);
-    // resolver.setPrefix("/WEB-INF/views/");
-    // resolver.setCacheable(false);
-    // resolver.setTemplateMode(TemplateMode.HTML);
-    // return resolver;
-    // }
-    //
-    // private ITemplateResolver javascriptTemplateResolver() {
-    // SpringResourceTemplateResolver resolver = new
-    // SpringResourceTemplateResolver();
-    // resolver.setApplicationContext(applicationContext);
-    // resolver.setPrefix("/WEB-INF/js/");
-    // resolver.setCacheable(false);
-    // resolver.setTemplateMode(TemplateMode.JAVASCRIPT);
-    // return resolver;
-    // }
-    //
-    // private ITemplateResolver plainTemplateResolver() {
-    // SpringResourceTemplateResolver resolver = new
-    // SpringResourceTemplateResolver();
-    // resolver.setApplicationContext(applicationContext);
-    // resolver.setPrefix("/WEB-INF/txt/");
-    // resolver.setCacheable(false);
-    // resolver.setTemplateMode(TemplateMode.TEXT);
-    // return resolver;
-    // }
+  @Bean
+  public LayoutDialect layoutDialect() {
+    return new LayoutDialect();
+  }
 
-    @Bean
-    public LayoutDialect layoutDialect() {
-        return new LayoutDialect();
-    }
+  @Bean
+  public ReloadableResourceBundleMessageSource messageSource() {
+    ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
+    source.setDefaultEncoding("UTF-8");
+    source.setBasename("classpath:messages");
+    return source;
+  }
 
+  @Bean
+  public CookieLocaleResolver localeResolver() {
+    CookieLocaleResolver resolver = new CookieLocaleResolver();
+    resolver.setDefaultLocale(new Locale("ru"));
+    resolver.setCookieMaxAge(3600 * 24 * 30);
+    resolver.setCookieName("lang_value");
+    return resolver;
+  }
+
+  @Bean
+  public LocaleChangeInterceptor localeChangeInterceptor() {
+    LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+    interceptor.setParamName("lng");
+    return interceptor;
+  }
+
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(localeChangeInterceptor());
+  }
 }

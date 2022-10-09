@@ -58,7 +58,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form th:action="@{/signUpFull}" method="post">
+                            <form th:action="@{/admin/signUpFull}" method="post">
                                 <div class="form-group">
                                     <label th:text="#{account.firstName}"></label>
                                     <input type="text" class="form-control" name="first_name" required>
@@ -163,6 +163,17 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <button class="btn btn-primary">Save New Password</button>
+                                                    </div>
+                                                </form>
+                                                <form th:action="@{/admin/save-user-role/{id}(id=${i.id})}" method="post">
+                                                    <div class="mb-4" >
+                                                      <div class="form-check mb-2" th:each=" j : ${allRoles}">
+                                                        <input type="checkbox" name= "roles" class="form-check-input" th:checked="${#lists.contains(i.roles, j)}" th:value="${j.id}"> 
+                                                        <label class="form-check-label" th:text="${j.name}" th:for=" 'checkbox-role-' + ${j.id}"></label>
+                                                      </div>
+                                                    </div>
+                                                    <div class-"form-group">
+                                                      <button class="btn btn-primary">Save Roles</button>
                                                     </div>
                                                 </form>
                                             </div>

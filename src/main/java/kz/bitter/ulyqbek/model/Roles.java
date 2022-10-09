@@ -18,16 +18,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Roles implements GrantedAuthority{
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+public class Roles extends BaseEntity implements GrantedAuthority {
 
   @Column
   private String name;
 
-@Override
-public String getAuthority() {
-	return this.getName();
-}
+  @Override
+  public String getAuthority() {
+    return this.getName();
+  }
 }
