@@ -1,9 +1,19 @@
 package kz.bitter.ulyqbek.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,6 +22,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import kz.bitter.ulyqbek.model.Chapters;
 import kz.bitter.ulyqbek.model.Lessons;
@@ -27,6 +38,15 @@ public class MainController {
 
   @Autowired
   private CourseService courseService;
+
+  @Value("${file.avatar.uploadPath}")
+  private String uploadPath;
+
+  @Value("${file.avatar.linkPath}")
+  private String linkPath;
+
+  @Value("${file.avatar.defaultAvaPath}")
+  private String defaultAvaPath;
 
   @GetMapping(value = "/")
   @PreAuthorize("isAnonymous()")
@@ -105,6 +125,50 @@ public class MainController {
   public String profile(Model model) {
     model.addAttribute("currentUser", getUserData());
     return "user/profile";
+  }
+
+  @GetMapping(value = "/viewPhoto/{url}", produces = { MediaType.IMAGE_JPEG_VALUE })
+  @PreAuthorize("isAuthenticated()")
+  public @ResponseBody byte[] viewProfilePhoto(@PathVariable(name = "url") String url) throws IOException {
+    InputStream in;
+    try {
+
+      ClassPathResource resource = new ClassPathResource(linkPath + url + ".jpg");
+      in = resource.getInputStream();
+    } catch (Exception e) {
+      ClassPathResource resource = new ClassPathResource(defaultAvaPath);
+      in = resource.getInputStream();
+    }
+    return IOUtils.toByteArray(in);
+  }
+
+  @PostMapping(value = "/uploadPfp")
+  public String uploadAva(@RequestParam(name = "photo") MultipartFile file) {
+
+    Users user = getUserData();
+
+    if (file.getContentType() != null && user != null
+        && (file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png"))) {
+      try {
+
+        String filename = "pfp_" + DigestUtils.sha1Hex("pfp_" + user.getId());
+
+        // byte[] bytes = ImageUtils.cropImageSquare(file.getBytes());
+        byte[] bytes = file.getBytes();
+
+        Path path = Paths.get(uploadPath + filename + ".jpg");
+        Files.write(path, bytes);
+
+        user.setPfp(filename);
+        userService.saveUser(user);
+
+        return "redirect:/setting";
+      } catch (Exception e) {
+        e.printStackTrace();
+        System.out.println("Error on uploadPfP");
+      }
+    }
+    return "redirect:/profile";
   }
 
   private Users getUserData() {

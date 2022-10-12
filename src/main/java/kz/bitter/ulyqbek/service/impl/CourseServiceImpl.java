@@ -60,7 +60,10 @@ public class CourseServiceImpl implements CourseService {
   @Override
   public Lessons saveLesson(Lessons lesson) {
     if (lesson.getOrderPlace() == null) {
-      lesson.setOrderPlace(lessonRepository.findTopByOrderPlace() + 1);
+      Long orderPlace = lessonRepository.findTopByOrderPlace();
+      if (orderPlace != null) {
+        lesson.setOrderPlace(lessonRepository.findTopByOrderPlace() + 1);
+      }
     }
     return lessonRepository.save(lesson);
   }

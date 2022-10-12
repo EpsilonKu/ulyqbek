@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/core.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/nobleUI/style.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/feather-font.css}">
+    <link th:href="@{/wro4j/allcss.css}" rel="stylesheet" />
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/core.css}"> -->
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"> -->
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/nobleUI/style.css}"> -->
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/feather-font.css}"> -->
 </head>
 <body>
 <div class="main-wrapper">
@@ -26,9 +27,10 @@
         </div>
     </div>
 </div>
-<script th:src="@{/js/nobleJS/core.js}"></script>
-<script th:src="@{/js/nobleJS/feather.min.js}"></script>
-<script th:src="@{/js/nobleJS/template.js}"></script>
+<script th:src = "@{/wro4j/alljs.js}"></script>
+<!-- <script th:src="@{/js/nobleJS/core.js}"></script> -->
+<!-- <script th:src="@{/js/nobleJS/feather.min.js}"></script> -->
+<!-- <script th:src="@{/js/nobleJS/template.js}"></script> -->
 <script>
     feather.replace()
 </script>

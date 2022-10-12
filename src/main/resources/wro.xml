@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups xmlns="http://www.isdc.ro/wro">
+    <group name="allcss">
+      <css>/css/core.css</css>
+      <css>/css/style.css</css>
+      <css>/css/nobleUI/style.css</css>
+      <css>/css/feather-font.css</css>
+    </group>
+    <group name="alljs">
+      <js>/js/nobleJS/core.js</js>
+      <js>/js/nobleJS/feather.min.js</js>        
+      <js>/js/nobleJS/template.js</js>        
+    </group>    
+</groups> 
+
