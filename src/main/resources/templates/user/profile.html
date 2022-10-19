@@ -12,7 +12,7 @@
                         </figure>
                     <div class="cover-body d-flex justify-content-between align-items-center">
                         <div>
-                            <img class="square-rounded-img" th:src="@{'viewPhoto/' + ${currentUser.getPfp()}}" alt="Place Holder">
+                            <img class="square-rounded-img" th:src="@{'/viewPhoto/' + ${currentUser.getPfp()}}" alt="Place Holder">
                             <span class="profile-name" th:text="${currentUser.fullname}"></span>
                         </div>
                         <div class="d-none d-md-block">

@@ -57,6 +57,15 @@ public class MainController {
     return "guest/index";
   }
 
+  @GetMapping(value = "/register")
+  @PreAuthorize("isAnonymous()")
+  public String register(Model model) {
+
+    // model.addAttribute("gender", "");
+    // model.addAttribute("currentUser", getUserDaa());
+    return "guest/register";
+  }
+
   @GetMapping(value = "/courses/{page}")
   @PreAuthorize("isAuthenticated()")
   public String exploreCourse(Model model, @PathVariable("page") int page) {
