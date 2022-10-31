@@ -51,7 +51,6 @@ public class MainController {
   @GetMapping(value = "/")
   @PreAuthorize("isAnonymous()")
   public String index(Model model) {
-
     // model.addAttribute("gender", "");
     // model.addAttribute("currentUser", getUserDaa());
     return "guest/index";
@@ -178,6 +177,13 @@ public class MainController {
       }
     }
     return "redirect:/profile";
+  }
+
+  @GetMapping(value = "/setting")
+  @PreAuthorize("isAuthenticated()")
+  public String setting(Model model) {
+    model.addAttribute("currentUser", getUserData());
+    return "user/setting";
   }
 
   private Users getUserData() {

@@ -1,58 +1,58 @@
 <div xmlns:th="http://www.thymeleaf.org">
-    <nav class="sidebar">
-        <div class="sidebar-header">
-            <a href="/" class="sidebar-brand">
-                Ulyqbek<span>Ac.</span>
-            </a>
-            <div class="sidebar-toggler not-active">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        Ulyqbek<span>Ac.</span>
+      </a>
+      <div class="sidebar-toggler not-active">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
 
-        <div class="sidebar-body">
-            <ul class="nav">
-                <li class="nav-item nav-category">Course</li>
-                <li class="nav-item">
-                    <a th:href="@{/profile}" class="nav-link">
-                        <i class="link-icon" data-feather="users"></i>
-                        <span class="link-title">Profile</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a th:href="@{/courses/0}" class="nav-link">
-                        <i class="link-icon" data-feather="globe"></i>
-                        <span class="link-title">Courses</span>
-                    </a>
-                </li>
-                <li class="nav-item nav-category">Admin Panels</li>
-                <li class="nav-item">
-                    <a th:href="@{/admin/user-panel}" class="nav-link">
-                        <i class="link-icon" data-feather="edit"></i>
-                        <span class="link-title">User Edit</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a th:href="@{/admin/course-panel}" class="nav-link">
-                        <i class="link-icon icon-box" data-feather="edit"></i>
-                        <span class="link-title">Course Edit</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a th:href="@{/admin/group-panel}" class="nav-link">
-                        <i class="link-icon" data-feather="edit"></i>
-                        <span class="link-title">Group Edit</span>
-                    </a>
-                </li>
-                <!-- <li class="nav-item"> -->
-                <!--     <a th:href="@{/eventkde-panel}" class="nav-link"> -->
-                <!--         <i class="link-icon" data-feather="edit"></i> -->
-                <!--         <span class="link-title">Event Edit</span> -->
-                <!--     </a> -->
-                <!-- </li> -->
+    <div class="sidebar-body">
+      <ul class="nav">
+        <li class="nav-item nav-category">Course</li>
+        <li class="nav-item">
+          <a th:href="@{/profile}" class="nav-link">
+            <i class="link-icon" data-feather="users"></i>
+            <span class="link-title">Profile</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/courses/0}" class="nav-link">
+            <i class="link-icon" data-feather="globe"></i>
+            <span class="link-title">Courses</span>
+          </a>
+        </li>
+        <li class="nav-item nav-category" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_TEACHER')">Admin Panels</li>
+        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+          <a th:href="@{/admin/user-panel}" class="nav-link">
+            <i class="link-icon" data-feather="edit"></i>
+            <span class="link-title">User Edit</span>
+          </a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_TEACHER')">
+          <a th:href="@{/teacher/course-panel}" class="nav-link">
+            <i class="link-icon icon-box" data-feather="edit"></i>
+            <span class="link-title">Course Edit</span>
+          </a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+          <a th:href="@{/admin/group-panel}" class="nav-link">
+            <i class="link-icon" data-feather="edit"></i>
+            <span class="link-title">Group Edit</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item"> -->
+        <!--     <a th:href="@{/eventkde-panel}" class="nav-link"> -->
+        <!--         <i class="link-icon" data-feather="edit"></i> -->
+        <!--         <span class="link-title">Event Edit</span> -->
+        <!--     </a> -->
+        <!-- </li> -->
 
-            </ul>
-        </div>
-    </nav>
+      </ul>
+    </div>
+  </nav>
 </div>

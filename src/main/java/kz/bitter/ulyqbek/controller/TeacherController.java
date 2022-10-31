@@ -24,7 +24,7 @@ import kz.bitter.ulyqbek.service.GroupService;
 import kz.bitter.ulyqbek.service.UserService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/teacher")
 public class TeacherController {
 
   @Autowired
@@ -36,114 +36,6 @@ public class TeacherController {
   @Autowired
   private GroupService groupService;
 
-  @GetMapping(value = "/user-panel")
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-  public String userPanel(Model model) {
-    model.addAttribute("allUsers", userService.getAllUsers());
-    model.addAttribute("allRoles", userService.getAllRoles());
-    model.addAttribute("currentUser", getUserData());
-    return "admin/panel";
-  }
-
-  @GetMapping(value = "/group-panel")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public String groupPanel(Model model) {
-    model.addAttribute("allGroups", groupService.getAllGroups());
-    model.addAttribute("currentUser", getUserData());
-    return "group/panel";
-  }
-
-  @PostMapping(value = "/remove-user")
-  public String removeUser(
-      @RequestParam(name = "user_id") Long id) {
-    Users user = userService.getUserById(id);
-    if (user != null) {
-      userService.removeUserById(id);
-      return "redirect:/admin/user-panel?removeSuccess=" + id;
-    }
-    return "redirect:/admin/user-panel?removeError=true";
-  }
-
-  @PostMapping(value = "/save-account")
-  public String saveUserAccount(@RequestParam(name = "user_id") String id,
-      @RequestParam(name = "user_email") String userEmail,
-      @RequestParam(name = "user_nickname") String userNickname,
-      @RequestParam(name = "user_password") String password) {
-    Users user = userService.getUserById(Long.parseLong(id));
-    if (user != null) {
-      user.setEmail(userEmail);
-      user.setUsername(userNickname);
-      return userService.saveUser(user) != null ? "redirect:/admin/user-panel?saveSuccess=" + id
-          : "redirect:/admin/user-panel?saveError=true";
-    }
-    return "redirect:/";
-  }
-
-  @PostMapping(value = "/save-user-role/{id}")
-  public String saveUserRole(@PathVariable("id") Long id,
-      @RequestParam("roles") Long[] roles) {
-    Users user = userService.getUserById(id);
-    List<Roles> userRoles = new ArrayList<>();
-    for (Long i : roles) {
-      userRoles.add(userService.getRole(i));
-    }
-    user.setRoles(userRoles);
-    userService.saveUser(user);
-    return "redirect:/admin/user-panel";
-  }
-
-  @PostMapping(value = "/save-group")
-  public String saveGroup(
-      @RequestParam(name = "group_id") Long id,
-      @RequestParam(name = "group_name") String name,
-      @RequestParam(name = "group_description") String description) {
-    Groups group = new Groups();
-    if (id != -1) {
-      group.setId(id);
-    }
-    group.setName(name);
-    group.setDescription(description);
-
-    groupService.saveGroups(group);
-    return "redirect:/admin/group-panel";
-  }
-
-  @PostMapping(value = "/save-user-to-group")
-  public String saveUserToGroup(
-      @RequestParam(name = "user_id") Long userId,
-      @RequestParam(name = "group_id") Long groupId) {
-    Users user = userService.getUserById(userId);
-    Groups groups = groupService.getGroupById(groupId);
-    userService.saveUserToGroup(user, groups);
-    return "redirect:/admin/edit/group/" + groupId;
-  }
-
-  @PostMapping(value = "/signUpFull")
-  public String toSignUpFull(@RequestParam(name = "user_email") String email,
-      @RequestParam(name = "user_nickname") String nickname,
-      @RequestParam(name = "user_password") String password,
-      @RequestParam(name = "user_re_password") String rePassword,
-      @RequestParam(name = "first_name") String firstName,
-      @RequestParam(name = "last_name") String lastName) {
-    Users newUser = new Users();
-
-    newUser.setEmail(email);
-    newUser.setUsername(nickname);
-    newUser.setPassword(password);
-    newUser.setFullname(firstName + lastName);
-    newUser.setId(null);
-    newUser.setPfp(null);
-
-    if (password.equals(rePassword)) {
-      newUser = userService.registerUser(newUser);
-      if (newUser != null) {
-        return "redirect:/admin/user-panel?regSuccess=" + newUser.getId();
-      } else
-        return "redirect:/admin/user-panel?regNotFree=true";
-    }
-    return "redirect:/admin/user-panel?regFail=true";
-  }
-
   // @PostMapping(value = "/save-group-to-event")
   // public String saveGroupToEvent(
   // @RequestParam(name = "event_id") Long eventId,
@@ -154,15 +46,6 @@ public class TeacherController {
   // return "redirect:admin/edit/event/" + eventId;
   // }
   //
-  @PostMapping(value = "/save-course-to-group")
-  public String saveCourseToGroup(
-      @RequestParam(name = "course_id") Long courseId,
-      @RequestParam(name = "group_id") Long groupId) {
-    Courses courses = courseService.getCourseById(courseId);
-    Groups groups = groupService.getGroupById(groupId);
-    groupService.saveCourseToGroup(groups, courses);
-    return "redirect:/admin/edit/group/" + groupId;
-  }
 
   @GetMapping(value = "/course-panel")
   public String coursePanel(Model model) {

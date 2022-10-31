@@ -1,69 +1,68 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/mainLayout.html}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/mainLayout.html}">
 <div class="col-12 stretch-card grid-margin" layout:fragment="content_view">
-    <div class="card">
-        <div class="card-body col-12">
-            <form th:action="@{/admin/new-lesson}" method="post">
-                <input type="hidden" th:name = "chapter_id" th:value="${chapter.id}">
-                       <button class="btn btn-primary">Create Lesson</button>
-            </form>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Order</th>
-                        <th>Details</th>
-                        <th>Remove</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="i : ${lessonList}">
-                        <td th:text="${i.id}"></td>
-                        <td th:text="${i.name}"></td>
-                        <td th:text="${i.orderPlace}"></td>
-                        <td>
-                            <a class="btn btn-primary" th:href="@{'/admin/edit/lesson/' + ${i.id}}">Details</a>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger btn-icon" data-toggle="modal" data-target="#lesson-remove"
-                               th:attr="data-target='#lesson-remove'+${i.id}">
-                                <i data-feather="trash-2"></i>
-                            </button>
-                            <div class="modal fade" tabindex="-1" role="dialog" th:id="lesson-remove+${i.id}">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            You can't restore after delete. Are you sure to remove course?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <form th:action="@{/remove-lesson}" method="post">
-                                                <input type="hidden" name="lesson_id" th:value="${i.id}">
-                                                <input type="hidden" name="chapter_id" th:value="${i.chapter.id}">
-                                                <button class="btn btn-danger">Delete</button>
-                                            </form>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                Cancel
-                                            </button>
+  <div class="card">
+    <div class="card-body col-12">
+      <form th:action="@{/teacher/new-lesson}" method="post">
+        <input type="hidden" th:name="chapter_id" th:value="${chapter.id}">
+        <button class="btn btn-primary">Create Lesson</button>
+      </form>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Order</th>
+              <th>Details</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="i : ${lessonList}">
+              <td th:text="${i.id}"></td>
+              <td th:text="${i.name}"></td>
+              <td th:text="${i.orderPlace}"></td>
+              <td>
+                <a class="btn btn-primary" th:href="@{'/teacher/edit/lesson/' + ${i.id}}">Details</a>
+              </td>
+              <td>
+                <button class="btn btn-danger btn-icon" data-toggle="modal" data-target="#lesson-remove"
+                  th:attr="data-target='#lesson-remove'+${i.id}">
+                  <i data-feather="trash-2"></i>
+                </button>
+                <div class="modal fade" tabindex="-1" role="dialog" th:id="lesson-remove+${i.id}">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        You can't restore after delete. Are you sure to remove course?
+                      </div>
+                      <div class="modal-footer">
+                        <form th:action="@{/remove-lesson}" method="post">
+                          <input type="hidden" name="lesson_id" th:value="${i.id}">
+                          <input type="hidden" name="chapter_id" th:value="${i.chapter.id}">
+                          <button class="btn btn-danger">Delete</button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                          Cancel
+                        </button>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </div>
+
 </html>
