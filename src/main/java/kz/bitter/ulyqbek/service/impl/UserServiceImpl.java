@@ -133,4 +133,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     return roleRepository.getOne(id);
   }
 
+  @Override
+  public Users saveUserPassword(Users user, String newPassword, String oldPassword) {
+    if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+      user.setPassword(passwordEncoder.encode(newPassword));
+      return userRepository.save(user);
+    }
+
+    return user;
+  }
+
 }

@@ -135,6 +135,34 @@ public class MainController {
     return "user/profile";
   }
 
+  @PostMapping(value = "/save-user-settings")
+  public String saveUserAccount(@RequestParam(name = "user_id") String id,
+      @RequestParam(name = "user_email") String userEmail,
+      @RequestParam(name = "user_nickname") String userNickname,
+      @RequestParam(name = "user_password") String password) {
+    Users user = userService.getUserById(Long.parseLong(id));
+    if (user != null) {
+      user.setEmail(userEmail);
+      user.setUsername(userNickname);
+      userService.saveUser(user);
+      return "redirect:/setting";
+    }
+    return "redirect:/";
+  }
+
+  @PostMapping(value = "/save-user-password")
+  public String saveUserPassword(@RequestParam(name = "user_id") String id,
+      @RequestParam(name = "user_new_password") String newPassword,
+      @RequestParam(name = "user_re_new_password") String reNewPassword,
+      @RequestParam(name = "user_old_password") String password) {
+    Users user = userService.getUserById(Long.parseLong(id));
+    if (user != null) {
+      userService.saveUserPassword(user, newPassword, password);
+      return "redirect:/setting";
+    }
+    return "redirect:/setting";
+  }
+
   @GetMapping(value = "/viewPhoto/{url}", produces = { MediaType.IMAGE_JPEG_VALUE })
   @PreAuthorize("isAuthenticated()")
   public @ResponseBody byte[] viewProfilePhoto(@PathVariable(name = "url") String url) throws IOException {
@@ -159,7 +187,7 @@ public class MainController {
         && (file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png"))) {
       try {
 
-        String filename = "pfp_" + DigestUtils.sha1Hex("pfp_" + user.getId());
+        String filenam = "pfp_" + DigestUtils.sha1Hex("pfp_" + user.getId());
 
         // byte[] bytes = ImageUtils.cropImageSquare(file.getBytes());
         byte[] bytes = file.getBytes();

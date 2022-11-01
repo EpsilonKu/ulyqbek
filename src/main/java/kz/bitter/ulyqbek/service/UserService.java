@@ -14,6 +14,8 @@ public interface UserService {
 
   Users saveUser(Users user);
 
+  Users saveUserPassword(Users user, String newPassword, String oldPassword);
+
   Users saveUserToGroup(Users users, Groups groups);
 
   void removeUserById(Long id);
